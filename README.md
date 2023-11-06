@@ -15,12 +15,13 @@ Dotfiles and Docker files for easy deployment of software on my server
 | vaultwarden | | 8062 | |
 | nextcloud | | 8081,11000 | |
 | code-server | `password` | 8443 | |
-| calibre | | 8080 |
+| calibre | | 8080 | |
+| dashy | | 4000 | |
 
 
 ## ports to be opened
 ```sh
-ports="81 443 80 8000 8384 22000 21027 8787 222 3001 3306 9002 8062 8081 11000 8443 8080"
+ports="81 443 80 8000 8384 22000 21027 8787 222 3001 3306 9002 8062 8081 11000 8443 8080 4000"
 for i in $ports; do
     sudo ufw allow $i
 done
