@@ -14,11 +14,12 @@ Dotfiles and Docker files for easy deployment of software on my server
 | roundmail | | 9002 | |
 | vaultwarden | | 8062 | |
 | nextcloud | | 8081,11000 | |
+| code-server | `password` | 8443 | |
 
 
 ## ports to be opened
 ```sh
-ports="81 443 80 8000 8384 22000 21027 8787 222 3001 3306 9002 8062 8081 11000"
+ports="81 443 80 8000 8384 22000 21027 8787 222 3001 3306 9002 8062 8081 11000 8443"
 for i in $ports; do
     sudo ufw allow $i
 done
