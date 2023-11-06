@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  mc:
+    image: itzg/minecraft-server
+    stdin_open: true
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"
+      TYPE: FABRIC
+      MODRINTH_PROJECTS: lithium,vmp-fabric,c2me-fabric,ferrite-core,krypton,modernfix,chunky,starlight,fabric-api,lazydfu,journeymap,owo-lib
+      MOTD: "§4§lZen's §6§lServer"
+      ICON: "https://oshi.at/oDGP"
+      ANNOUNCE_PLAYER_ACHIEVEMENTS: "TRUE"
+      MEMORY: "4G"
+      OPS: zen
+      SERVER_NAME: "Zen's Server"
+      SIMULATION_DISTANCE: "16"
+      USE_AIKAR_FLAGS: "TRUE"
+      SYNC_CHUNK_WRITES: "FALSE"
+      VIEW_DISTANCE: "16"
+      SPAWN_PROTECTION: "TRUE"
+      ENABLE_AUTOPAUSE: "TRUE"
+      ENABLE_STATUS: "TRUE"
+      ONLINE_MODE: "FALSE"
+      OVERRIDE_SERVER_PROPERTIES: "TRUE"
+      MAX_TICK_TIME: "-1"
+    restart: always
+    volumes:
+      - /docker/minecraft/data:/data
