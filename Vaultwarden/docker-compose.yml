@@ -14,10 +14,13 @@ services:
       - LOGIN_RATELIMIT_SECONDS=60
       - DOMAIN=https://warden.izanagi.xyz
       - SIGNUPS_ALLOWED=false
-      - SIGNUPS_DOMAINS_WHITELIST=izanagi.xyz
       - SIGNUPS_VERIFY=true
       - SIGNUPS_VERIFY_RESEND_TIME=3600
       - SIGNUPS_VERIFY_RESEND_LIMIT=6
       - EMERGENCY_ACCESS_ALLOWED=true
       - SENDS_ALLOWED=true
       - WEB_VAULT_ENABLED=true
+
+networks:
+  nginx-proxy-manager_default:
+    external: true

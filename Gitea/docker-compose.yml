@@ -31,3 +31,7 @@ services:
       - MYSQL_DATABASE=gitea
     volumes:
       - /docker/mysql:/var/lib/mysql
+
+networks:
+  nginx-proxy-manager_default:
+    external: true
