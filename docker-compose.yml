@@ -151,9 +151,9 @@ services:
   wg-easy:
     container_name: wg-easy
     image: weejewel/wg-easy
+    env_file: secrets.env
     environment:
       - WG_HOST=vpn.izanagi.xyz
-      - PASSWORD=password123
     volumes:
       - /docker/wireguard:/etc/wireguard
     ports:
