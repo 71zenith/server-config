@@ -1,0 +1,120 @@
+services:
+  gitea:
+    image: gitea/gitea:1.20.5-rootless
+    restart: unless-stopped
+    network:
+      - nginx-proxy-manager_default
+    volumes:
+      - /docker/gitea/data:/var/lib/gitea
+      - /docker/gitea/config:/etc/gitea
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3001:3000"
+      - "222:2222"
+
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    restart: unless-stopped
+    network:
+      - nginx-proxy-manager_default
+    volumes:
+      - /docker/homarr/configs:/app/data/configs
+      - /docker/homarr/icons:/app/public/icons
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - '7575:7575'
+
+
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    network:
+      - nginx-proxy-manager_default
+    volumes:
+      - /docker/syncthing/config:/config
+      - /docker/syncthing/data1:/data1
+      - /docker/syncthing/data2:/data2
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped
+
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: 'nginx-proxy-manager'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'
+
+    volumes:
+      - /docker/nginx-proxy-manager/data:/data
+      - /docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+
+  vaultwarden:
+    restart: unless-stopped
+    container_name: vaultwarden
+    image: vaultwarden/server:latest
+    network:
+      - nginx-proxy-manager_default
+    volumes:
+      - /docker/vaultwarden/:/data/
+    ports:
+      - 8062:80
+    environment:
+      - LOGIN_RATELIMIT_MAX_BURST=10
+      - LOGIN_RATELIMIT_SECONDS=60
+      - DOMAIN=https://warden.izanagi.xyz
+      - SIGNUPS_ALLOWED=false
+      - SIGNUPS_VERIFY=true
+      - SIGNUPS_VERIFY_RESEND_TIME=3600
+      - SIGNUPS_VERIFY_RESEND_LIMIT=6
+      - EMERGENCY_ACCESS_ALLOWED=true
+      - SENDS_ALLOWED=true
+      - WEB_VAULT_ENABLED=true
+
+  sws:
+    image: joseluisq/static-web-server
+    container_name: static-web-server
+    network:
+      - nginx-proxy-manager_default
+    restart: unless-stopped
+    ports:
+      - 8787:80
+    volumes:
+      - /home/ubuntu/public:/public
+
+  nextcloud-aio-mastercontainer:
+    image: nextcloud/all-in-one:latest
+    init: true
+    restart: unless-stopped
+    container_name: nextcloud-aio-mastercontainer
+    network:
+      - nginx-proxy-manager_default
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 8081:8080
+    environment:
+      - APACHE_PORT=11000
+      - APACHE_IP_BINDING=0.0.0.0
+      - NEXTCLOUD_DATADIR=/docker/nextcloud
+      - NEXTCLOUD_MEMORY_LIMIT=1024M
+
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
+
+networks:
+  nginx-proxy-manager_default:
+    external: true
