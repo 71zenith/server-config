@@ -2,8 +2,6 @@ services:
   gitea:
     image: gitea/gitea:1.20.5-rootless
     restart: unless-stopped
-    network:
-      - nginx-proxy-manager_default
     volumes:
       - /docker/gitea/data:/var/lib/gitea
       - /docker/gitea/config:/etc/gitea
@@ -17,8 +15,6 @@ services:
     container_name: homarr
     image: ghcr.io/ajnart/homarr:latest
     restart: unless-stopped
-    network:
-      - nginx-proxy-manager_default
     volumes:
       - /docker/homarr/configs:/app/data/configs
       - /docker/homarr/icons:/app/public/icons
@@ -34,8 +30,6 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Kolkata
-    network:
-      - nginx-proxy-manager_default
     volumes:
       - /docker/syncthing/config:/config
       - /docker/syncthing/data1:/data1
@@ -64,8 +58,6 @@ services:
     restart: unless-stopped
     container_name: vaultwarden
     image: vaultwarden/server:latest
-    network:
-      - nginx-proxy-manager_default
     volumes:
       - /docker/vaultwarden/:/data/
     ports:
@@ -85,8 +77,6 @@ services:
   sws:
     image: joseluisq/static-web-server
     container_name: static-web-server
-    network:
-      - nginx-proxy-manager_default
     restart: unless-stopped
     ports:
       - 8787:80
@@ -98,8 +88,6 @@ services:
     init: true
     restart: unless-stopped
     container_name: nextcloud-aio-mastercontainer
-    network:
-      - nginx-proxy-manager_default
     volumes:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -114,7 +102,3 @@ services:
 volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
-
-networks:
-  nginx-proxy-manager_default:
-    external: true
