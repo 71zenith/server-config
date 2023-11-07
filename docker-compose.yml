@@ -61,7 +61,14 @@ services:
       - /docker/vaultwarden/:/data/
     ports:
       - 8062:80
+    env_file: secrets.env
     environment:
+      - SMTP_HOST=mail.izanagi.xyz
+      - SMTP_FROM=vaultwarden@izanagi.xyz
+      - SMTP_FROM_NAME=VaultWarden
+      - SMTP_SECURITY=force_tls
+      - SMTP_PORT=465
+      - SMTP_USERNAME=vaultwarden@izanagi.xyz
       - LOGIN_RATELIMIT_MAX_BURST=10
       - LOGIN_RATELIMIT_SECONDS=60
       - DOMAIN=https://warden.izanagi.xyz
