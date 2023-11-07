@@ -11,16 +11,16 @@ services:
       - "3001:3000"
       - "222:2222"
 
-  homarr:
-    container_name: homarr
-    image: ghcr.io/ajnart/homarr:latest
-    restart: unless-stopped
-    volumes:
-      - /docker/homarr/configs:/app/data/configs
-      - /docker/homarr/icons:/app/public/icons
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - '7575:7575'
+  # homarr:
+  #   container_name: homarr
+  #   image: ghcr.io/ajnart/homarr:latest
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /docker/homarr/configs:/app/data/configs
+  #     - /docker/homarr/icons:/app/public/icons
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   ports:
+  #     - '7575:7575'
 
 
   syncthing:
@@ -99,34 +99,34 @@ services:
       - NEXTCLOUD_DATADIR=/docker/nextcloud
       - NEXTCLOUD_MEMORY_LIMIT=1024M
 
-  mc:
-    image: itzg/minecraft-server
-    stdin_open: true
-    ports:
-      - "25565:25565"
-    environment:
-      EULA: "TRUE"
-      TYPE: FABRIC
-      MODRINTH_PROJECTS: lithium,vmp-fabric,c2me-fabric,ferrite-core,krypton,modernfix,chunky,starlight,fabric-api,lazydfu,journeymap
-      MOTD: "§4§lZen's §6§lServer"
-      ICON: "https://oshi.at/oDGP"
-      ANNOUNCE_PLAYER_ACHIEVEMENTS: "TRUE"
-      MEMORY: "8G"
-      OPS: zen
-      SERVER_NAME: "Zen's Server"
-      SIMULATION_DISTANCE: "16"
-      USE_AIKAR_FLAGS: "TRUE"
-      SYNC_CHUNK_WRITES: "FALSE"
-      VIEW_DISTANCE: "16"
-      SPAWN_PROTECTION: "TRUE"
-      ENABLE_AUTOPAUSE: "TRUE"
-      ENABLE_STATUS: "TRUE"
-      ONLINE_MODE: "FALSE"
-      OVERRIDE_SERVER_PROPERTIES: "TRUE"
-      MAX_TICK_TIME: "-1"
-    restart: unless-stopped
-    volumes:
-      - /docker/minecraft/data:/data
+  # mc:
+  #   image: itzg/minecraft-server
+  #   stdin_open: true
+  #   ports:
+  #     - "25565:25565"
+  #   environment:
+  #     EULA: "TRUE"
+  #     TYPE: FABRIC
+  #     MODRINTH_PROJECTS: lithium,vmp-fabric,c2me-fabric,ferrite-core,krypton,modernfix,chunky,starlight,fabric-api,lazydfu,journeymap
+  #     MOTD: "§4§lZen's §6§lServer"
+  #     ICON: "https://oshi.at/oDGP"
+  #     ANNOUNCE_PLAYER_ACHIEVEMENTS: "TRUE"
+  #     MEMORY: "8G"
+  #     OPS: zen
+  #     SERVER_NAME: "Zen's Server"
+  #     SIMULATION_DISTANCE: "16"
+  #     USE_AIKAR_FLAGS: "TRUE"
+  #     SYNC_CHUNK_WRITES: "FALSE"
+  #     VIEW_DISTANCE: "16"
+  #     SPAWN_PROTECTION: "TRUE"
+  #     ENABLE_AUTOPAUSE: "TRUE"
+  #     ENABLE_STATUS: "TRUE"
+  #     ONLINE_MODE: "FALSE"
+  #     OVERRIDE_SERVER_PROPERTIES: "TRUE"
+  #     MAX_TICK_TIME: "-1"
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /docker/minecraft/data:/data
 
   roundcubemail:
     image: roundcube/roundcubemail:latest
@@ -147,6 +147,17 @@ services:
       - ROUNDCUBEMAIL_DEFAULT_HOST=ssl://mail.izanagi.xyz
       - ROUNDCUBEMAIL_SMTP_SERVER=ssl://mail.izanagi.xyz
       - ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE=25M
+
+  dashy:
+    image: lissy93/dashy
+    container_name: dashy
+    volumes:
+      - /home/ubuntu/my-config.yml:/app/public/conf.yml
+    ports:
+      - 4000:80
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
 
 volumes:
   nextcloud_aio_mastercontainer:
