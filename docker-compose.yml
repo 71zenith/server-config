@@ -22,7 +22,6 @@ services:
   #   ports:
   #     - '7575:7575'
 
-
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
@@ -101,7 +100,6 @@ services:
 
   # mc:
   #   image: itzg/minecraft-server
-  #   stdin_open: true
   #   ports:
   #     - "25565:25565"
   #   environment:
