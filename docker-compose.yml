@@ -8,9 +8,6 @@ services:
       - /docker/gitea/config:/etc/gitea
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "3001:3000"
-      - "222:2222"
 
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
@@ -23,11 +20,6 @@ services:
       - /docker/syncthing/config:/config
       - /docker/syncthing/data1:/data1
       - /docker/syncthing/data2:/data2
-    ports:
-      - 8384:8384
-      - 22000:22000/tcp
-      - 22000:22000/udp
-      - 21027:21027/udp
     restart: unless-stopped
 
   # postgres:
@@ -82,8 +74,6 @@ services:
     image: vaultwarden/server:latest
     volumes:
       - /docker/vaultwarden/:/data/
-    ports:
-      - 8062:80
     env_file: secrets.env
     environment:
       - SMTP_HOST=mail.izanagi.xyz
@@ -107,8 +97,6 @@ services:
     image: joseluisq/static-web-server
     container_name: static-web-server
     restart: unless-stopped
-    ports:
-      - 8787:80
     volumes:
       - /home/ubuntu/public:/public
 
@@ -165,8 +153,6 @@ services:
       - /docker/roundmail/config:/var/roundcube/config
       - /docker/roundmail/db/sqlite:/var/roundcube/db
       - /docker/roundmail/tmp:/tmp/roundcube-temp
-    ports:
-      - 9002:80
     environment:
       - ROUNDCUBEMAIL_DB_TYPE=sqlite
       - ROUNDCUBEMAIL_DEFAULT_PORT=993
@@ -184,9 +170,6 @@ services:
       - WG_HOST=vpn.izanagi.xyz
     volumes:
       - /docker/wireguard:/etc/wireguard
-    ports:
-      - "51820:51820/udp"
-      - "51821:51821/tcp"
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -200,8 +183,6 @@ services:
     container_name: dashy
     volumes:
       - /home/ubuntu/my-config.yml:/app/public/conf.yml
-    ports:
-      - 4000:80
     environment:
       - NODE_ENV=production
     restart: unless-stopped
