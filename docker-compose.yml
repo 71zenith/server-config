@@ -8,20 +8,9 @@ services:
       - /docker/gitea/config:/etc/gitea
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    # ports:
-    #   - "3001:3000"
-    #   - "222:2222"
-
-  # homarr:
-  #   container_name: homarr
-  #   image: ghcr.io/ajnart/homarr:latest
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /docker/homarr/configs:/app/data/configs
-  #     - /docker/homarr/icons:/app/public/icons
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   ports:
-  #     - '7575:7575'
+    ports:
+      - "3001:3000"
+      - "222:2222"
 
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
@@ -34,11 +23,11 @@ services:
       - /docker/syncthing/config:/config
       - /docker/syncthing/data1:/data1
       - /docker/syncthing/data2:/data2
-    # ports:
-    #   - 8384:8384
-    #   - 22000:22000/tcp
-    #   - 22000:22000/udp
-    #   - 21027:21027/udp
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
     restart: unless-stopped
 
   # postgres:
@@ -93,8 +82,8 @@ services:
     image: vaultwarden/server:latest
     volumes:
       - /docker/vaultwarden/:/data/
-    # ports:
-    #   - 8062:80
+    ports:
+      - 8062:80
     env_file: secrets.env
     environment:
       - SMTP_HOST=mail.izanagi.xyz
@@ -118,8 +107,8 @@ services:
     image: joseluisq/static-web-server
     container_name: static-web-server
     restart: unless-stopped
-    # ports:
-    #   - 8787:80
+    ports:
+      - 8787:80
     volumes:
       - /home/ubuntu/public:/public
 
@@ -176,8 +165,8 @@ services:
       - /docker/roundmail/config:/var/roundcube/config
       - /docker/roundmail/db/sqlite:/var/roundcube/db
       - /docker/roundmail/tmp:/tmp/roundcube-temp
-    # ports:
-    #   - 9002:80
+    ports:
+      - 9002:80
     environment:
       - ROUNDCUBEMAIL_DB_TYPE=sqlite
       - ROUNDCUBEMAIL_DEFAULT_PORT=993
@@ -187,32 +176,32 @@ services:
       - ROUNDCUBEMAIL_SMTP_SERVER=ssl://mail.izanagi.xyz
       - ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE=25M
 
-  # wg-easy:
-  #   container_name: wg-easy
-  #   image: weejewel/wg-easy
-  #   env_file: secrets.env
-  #   environment:
-  #     - WG_HOST=vpn.izanagi.xyz
-  #   volumes:
-  #     - /docker/wireguard:/etc/wireguard
-  #   # ports:
-  #   #   - "51820:51820/udp"
-  #   #   - "51821:51821/tcp"
-  #   cap_add:
-  #     - NET_ADMIN
-  #     - SYS_MODULE
-  #   sysctls:
-  #     - net.ipv4.conf.all.src_valid_mark=1
-  #     - net.ipv4.ip_forward=1
-  #   restart: unless-stopped
+  wg-easy:
+    container_name: wg-easy
+    image: weejewel/wg-easy
+    env_file: secrets.env
+    environment:
+      - WG_HOST=vpn.izanagi.xyz
+    volumes:
+      - /docker/wireguard:/etc/wireguard
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
+    restart: unless-stopped
 
   dashy:
     image: lissy93/dashy
     container_name: dashy
     volumes:
       - /home/ubuntu/my-config.yml:/app/public/conf.yml
-    # ports:
-    #   - 4000:80
+    ports:
+      - 4000:80
     environment:
       - NODE_ENV=production
     restart: unless-stopped
@@ -220,8 +209,3 @@ services:
 volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
-
-networks:
-  default:
-    external: true
-    name: proxy-network
