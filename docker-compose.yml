@@ -1,3 +1,4 @@
+version: "3.4"
 services:
   gitea:
     image: gitea/gitea:1.20.5-rootless
@@ -223,3 +224,4 @@ volumes:
 networks:
   default:
     external: true
+    name: proxy-network
