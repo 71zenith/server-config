@@ -7,9 +7,9 @@ services:
       - /docker/gitea/config:/etc/gitea
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "3001:3000"
-      - "222:2222"
+    # ports:
+    #   - "3001:3000"
+    #   - "222:2222"
 
   # homarr:
   #   container_name: homarr
@@ -33,45 +33,45 @@ services:
       - /docker/syncthing/config:/config
       - /docker/syncthing/data1:/data1
       - /docker/syncthing/data2:/data2
-    ports:
-      - 8384:8384
-      - 22000:22000/tcp
-      - 22000:22000/udp
-      - 21027:21027/udp
+    # ports:
+    #   - 8384:8384
+    #   - 22000:22000/tcp
+    #   - 22000:22000/udp
+    #   - 21027:21027/udp
     restart: unless-stopped
 
-  postgres:
-    hostname: postgres
-    image: postgres:15-alpine
-    restart: unless-stopped
-    volumes:
-      - /docker/postgres/dendrite_postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: itsasecret
-      POSTGRES_USER: dendrite
-      POSTGRES_DATABASE: dendrite
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U dendrite"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+  # postgres:
+  #   hostname: postgres
+  #   image: postgres:15-alpine
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /docker/postgres/dendrite_postgres_data:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_PASSWORD: itsasecret
+  #     POSTGRES_USER: dendrite
+  #     POSTGRES_DATABASE: dendrite
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U dendrite"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
 
-  monolith:
-    hostname: matrix-dendrite
-    image: matrixdotorg/dendrite-monolith:latest
-    ports:
-      - 8008:8008
-      - 8448:8448
-    volumes:
-      - /docker/dendrite/config:/etc/dendrite
-      - /docker/dendrite/dendrite_media:/var/dendrite/media
-      - /docker/dendrite/dendrite_jetstream:/var/dendrite/jetstream
-      - /docker/dendrite/dendrite_search_index:/var/dendrite/searchindex
-      - /docker/dendrite/mnt/:/mnt
-    depends_on:
-      postgres:
-        condition: service_healthy
-    restart: unless-stopped
+  # monolith:
+  #   hostname: matrix-dendrite
+  #   image: matrixdotorg/dendrite-monolith:latest
+  #   # ports:
+  #   #   - 8008:8008
+  #   #   - 8448:8448
+  #   volumes:
+  #     - /docker/dendrite/config:/etc/dendrite
+  #     - /docker/dendrite/dendrite_media:/var/dendrite/media
+  #     - /docker/dendrite/dendrite_jetstream:/var/dendrite/jetstream
+  #     - /docker/dendrite/dendrite_search_index:/var/dendrite/searchindex
+  #     - /docker/dendrite/mnt/:/mnt
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   restart: unless-stopped
 
   npm:
     image: 'jc21/nginx-proxy-manager:latest'
@@ -92,8 +92,8 @@ services:
     image: vaultwarden/server:latest
     volumes:
       - /docker/vaultwarden/:/data/
-    ports:
-      - 8062:80
+    # ports:
+    #   - 8062:80
     env_file: secrets.env
     environment:
       - SMTP_HOST=mail.izanagi.xyz
@@ -117,8 +117,8 @@ services:
     image: joseluisq/static-web-server
     container_name: static-web-server
     restart: unless-stopped
-    ports:
-      - 8787:80
+    # ports:
+    #   - 8787:80
     volumes:
       - /home/ubuntu/public:/public
 
@@ -175,8 +175,8 @@ services:
       - /docker/roundmail/config:/var/roundcube/config
       - /docker/roundmail/db/sqlite:/var/roundcube/db
       - /docker/roundmail/tmp:/tmp/roundcube-temp
-    ports:
-      - 9002:80
+    # ports:
+    #   - 9002:80
     environment:
       - ROUNDCUBEMAIL_DB_TYPE=sqlite
       - ROUNDCUBEMAIL_DEFAULT_PORT=993
@@ -194,9 +194,9 @@ services:
       - WG_HOST=vpn.izanagi.xyz
     volumes:
       - /docker/wireguard:/etc/wireguard
-    ports:
-      - "51820:51820/udp"
-      - "51821:51821/tcp"
+    # ports:
+    #   - "51820:51820/udp"
+    #   - "51821:51821/tcp"
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -210,8 +210,8 @@ services:
     container_name: dashy
     volumes:
       - /home/ubuntu/my-config.yml:/app/public/conf.yml
-    ports:
-      - 4000:80
+    # ports:
+    #   - 4000:80
     environment:
       - NODE_ENV=production
     restart: unless-stopped
