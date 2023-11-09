@@ -187,6 +187,19 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
 
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    env_file: secrets.env
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - PROXY_DOMAIN=code.izanagi.xyz
+    volumes:
+      - /docker/code-server/config:/config
+    restart: unless-stopped
+
 volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer
