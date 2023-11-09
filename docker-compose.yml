@@ -39,6 +39,7 @@ services:
     container_name: searxng
     image: searxng/searxng:latest
     volumes:
+      - /home/ubuntu/searxng.yml:/etc/searxng/settings.yml:rw
       - /docker/searxng:/etc/searxng:rw
     cap_drop:
       - ALL
