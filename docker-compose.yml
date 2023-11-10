@@ -85,6 +85,19 @@ services:
   #       condition: service_healthy
   #   restart: unless-stopped
 
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /home/ubuntu/fin/library:/config
+      - /home/ubuntu/fin/tvseries:/data/tvshows
+      - /home/ubuntu/fin/movies:/data/movies
+    restart: unless-stopped
+
   npm:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: 'nginx-proxy-manager'
