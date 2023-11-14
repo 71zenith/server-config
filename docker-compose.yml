@@ -208,11 +208,13 @@ services:
       - net.ipv4.ip_forward=1
     restart: unless-stopped
 
-  trilium:
-    image: 'zadam/trilium:0.56-latest'
-    volumes: 
-    - '/docker/trilium/data:/home/node/trilium-data' 
+  tubesync:
+    image: ghcr.io/meeb/tubesync:latest
+    container_name: tubesync
     restart: unless-stopped
+    volumes:
+      - /docker/tubesync/config:/config
+      - /docker/tubesync/downloads:/downloads
 
   dashy:
     image: lissy93/dashy
