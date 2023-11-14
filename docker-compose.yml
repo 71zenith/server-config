@@ -2,6 +2,7 @@ version: "3.4"
 services:
   gitea:
     image: gitea/gitea:1.20.5-rootless
+    container_name: gitea
     restart: unless-stopped
     volumes:
       - /docker/gitea/data:/var/lib/gitea
@@ -210,8 +211,9 @@ services:
 
   trilium:
     image: 'zadam/trilium:0.56-latest'
-    volumes: 
-      - '/docker/trilium/data:/home/node/trilium-data' 
+    container_name: trilium
+    volumes:
+      - '/docker/trilium/data:/home/node/trilium-data'
     restart: unless-stopped
 
   dashy:
