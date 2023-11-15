@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=root
 Group=root
-ExecStart=/usr/bin/calibre-server --disable-local-write --enable-auth --ajax-timeout=360 /home/ubuntu/kindle
+ExecStart=/usr/bin/calibre-server --disable-local-write --enable-auth --ajax-timeout=360  --port 8082 --listen-on 0.0.0.0 /home/ubuntu/kindle
 
 [Install]
 WantedBy=multi-user.target

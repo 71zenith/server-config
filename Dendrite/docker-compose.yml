@@ -1,0 +1,35 @@
+version: "3.4"
+
+services:
+  postgres:
+    hostname: postgres
+    image: postgres:15-alpine
+    restart: unless-stopped
+    volumes:
+      - /docker/postgres/dendrite_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: itsasecret
+      POSTGRES_USER: dendrite
+      POSTGRES_DATABASE: dendrite
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dendrite"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  monolith:
+    hostname: monolith
+    image: matrixdotorg/dendrite-monolith:latest
+    ports:
+      - 8008:8008
+      - 8448:8448
+    volumes:
+      - /docker/dendrite/config:/etc/dendrite
+      - /docker/dendrite/dendrite_media:/var/dendrite/media
+      - /docker/dendrite/dendrite_jetstream:/var/dendrite/jetstream
+      - /docker/dendrite/dendrite_search_index:/var/dendrite/searchindex
+      - /docker/dendrite/mnt/:/mnt
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
