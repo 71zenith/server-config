@@ -227,6 +227,24 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
 
+  photoprism:
+    image: photoprism/photoprism:latest
+    container_name: photoprism
+    restart: unless-stopped
+    environment:
+      PHOTOPRISM_SITE_URL: "https://prism.izanagi.xyz/"
+      PHOTOPRISM_SITE_CAPTION: "Photos App"
+      PHOTOPRISM_SITE_DESCRIPTION: "Zen's Photos App"
+      PHOTOPRISM_SITE_AUTHOR: "zen"
+      PHOTOPRISM_ADMIN_PASSWORD: "password"
+      PHOTOPRISM_JPEG_QUALITY: 100
+      PHOTOPRISM_INIT: "update tensorflow clean"
+    working_dir: "/photoprism"
+    volumes:
+      - "/docker/photoprism/originals:/photoprism/originals"
+      - "/docker/photoprism/import:/photoprism/import"
+      - "/docker/photoprism/storage:/photoprism/storage"
+
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
