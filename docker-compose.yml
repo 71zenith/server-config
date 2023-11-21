@@ -41,6 +41,8 @@ services:
     image: searxng/searxng:latest
     volumes:
       - /docker/searxng:/etc/searxng:rw
+    depends_on:
+      - redis
     cap_drop:
       - ALL
     cap_add:
